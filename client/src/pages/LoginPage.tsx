@@ -18,8 +18,16 @@ export const LoginPage: React.FC = () => {
     try {
       const res = await api.post('/auth/login', { email, password });
       if (res.data.success) {
-        localStorage.setItem('token', res.data.data.accessToken);
-        navigate('/');
+        const { accessToken, user } = res.data.data;
+        localStorage.setItem('token', accessToken);
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        if (user?.role === 'Admin' || user?.role === 1 || user?.role === '1') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       } else {
         setError(res.data.message || 'Đăng nhập thất bại.');
       }

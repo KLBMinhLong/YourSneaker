@@ -13,6 +13,7 @@ import { AdminLayout } from '../components/layout/AdminLayout';
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminProductsPage } from '../pages/admin/AdminProductsPage';
 import { AdminOrdersPage } from '../pages/admin/AdminOrdersPage';
+import { ProtectedRoute } from '../components/common/ProtectedRoute';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -28,11 +29,13 @@ export const AppRoutes: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<LoginPage />} />
 
-      {/* Admin Portal Routes */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboardPage />} />
-        <Route path="products" element={<AdminProductsPage />} />
-        <Route path="orders" element={<AdminOrdersPage />} />
+      {/* Protected Admin Portal Routes */}
+      <Route element={<ProtectedRoute requireAdmin />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboardPage />} />
+          <Route path="products" element={<AdminProductsPage />} />
+          <Route path="orders" element={<AdminOrdersPage />} />
+        </Route>
       </Route>
     </Routes>
   );
