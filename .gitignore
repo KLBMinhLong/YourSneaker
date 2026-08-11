@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
+packages/
+*.nupkg
+project.lock.json
+.vs/
+
+# Build output
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+appsettings.Production.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+TestResults/
+
+# Docker
+docker-compose.override.yml
+
+# Uploads
+server/src/YourSneaker.Api/wwwroot/uploads/*
+!server/src/YourSneaker.Api/wwwroot/uploads/.gitkeep
