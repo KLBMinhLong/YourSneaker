@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using YourSneaker.Domain.Entities;
 using YourSneaker.Domain.Enums;
 using BCrypt.Net;
@@ -11,10 +12,12 @@ public static class DbInitializer
         try
         {
             await context.Database.EnsureCreatedAsync();
+            await EnsureTablesCreatedAsync(context);
 
-            if (!context.Users.Any())
+            var adminUser = context.Users.FirstOrDefault(u => u.Email == "admin@yoursneaker.com");
+            if (adminUser == null)
             {
-                var adminUser = new User
+                adminUser = new User
                 {
                     Id = Guid.NewGuid(),
                     Email = "admin@yoursneaker.com",
@@ -23,8 +26,18 @@ public static class DbInitializer
                     Role = UserRole.Admin,
                     CreatedAt = DateTime.UtcNow
                 };
+                context.Users.Add(adminUser);
+            }
+            else
+            {
+                adminUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123456");
+                adminUser.Role = UserRole.Admin;
+            }
 
-                var demoCustomer = new User
+            var demoCustomer = context.Users.FirstOrDefault(u => u.Email == "customer@yoursneaker.com");
+            if (demoCustomer == null)
+            {
+                demoCustomer = new User
                 {
                     Id = Guid.NewGuid(),
                     Email = "customer@yoursneaker.com",
@@ -33,10 +46,14 @@ public static class DbInitializer
                     Role = UserRole.Customer,
                     CreatedAt = DateTime.UtcNow
                 };
-
-                await context.Users.AddRangeAsync(adminUser, demoCustomer);
-                await context.SaveChangesAsync();
+                context.Users.Add(demoCustomer);
             }
+            else
+            {
+                demoCustomer.PasswordHash = BCrypt.Net.BCrypt.HashPassword("Customer@123456");
+            }
+
+            await context.SaveChangesAsync();
 
             if (!context.Categories.Any())
             {
@@ -44,34 +61,34 @@ public static class DbInitializer
                 {
                     new Category
                     {
-                        Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                        Id = Guid.NewGuid(),
                         Name = "Air Jordan",
                         Slug = "air-jordan",
-                        Description = "Biểu tượng bóng rổ và văn hóa streetwear toàn cầu.",
+                        Description = "Biểu tượng bóng rổ và văn hóa Sneaker thế giới.",
                         ImageUrl = "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80"
                     },
                     new Category
                     {
-                        Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                        Name = "Yeezy",
+                        Id = Guid.NewGuid(),
+                        Name = "Yeezy Boost",
                         Slug = "yeezy",
-                        Description = "Thiết kế tương lai và êm ái đột phá từ Kanye West.",
-                        ImageUrl = "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80"
+                        Description = "Thiết kế tương lai độc đáo từ Kanye West và Adidas.",
+                        ImageUrl = "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=800&q=80"
                     },
                     new Category
                     {
-                        Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                        Name = "Nike Dunk",
+                        Id = Guid.NewGuid(),
+                        Name = "Nike Dunk & Air Force",
                         Slug = "nike-dunk",
-                        Description = "Mẫu giày trượt ván & đường phố kinh điển.",
+                        Description = "Các thiết kế classic huyền thoại trường tồn với thời gian.",
                         ImageUrl = "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80"
                     },
                     new Category
                     {
-                        Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
-                        Name = "New Balance",
+                        Id = Guid.NewGuid(),
+                        Name = "New Balance Retro",
                         Slug = "new-balance",
-                        Description = "Phong cách Retro Runner hiện đại và thoải mái tối đa.",
+                        Description = "Sự êm ái tuyệt đối và phong cách Dad Shoes cá tính.",
                         ImageUrl = "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=800&q=80"
                     }
                 };
@@ -80,76 +97,49 @@ public static class DbInitializer
                 await context.SaveChangesAsync();
             }
 
-            var allCategories = context.Categories.ToList();
-            if (allCategories.Count == 0) return;
-
-            var defaultCatId = allCategories[0].Id;
-            var jordanId = allCategories.FirstOrDefault(c => c.Slug == "air-jordan")?.Id ?? defaultCatId;
-            var yeezyId = allCategories.FirstOrDefault(c => c.Slug == "yeezy")?.Id ?? defaultCatId;
-            var nikeDunkId = allCategories.FirstOrDefault(c => c.Slug == "nike-dunk")?.Id ?? defaultCatId;
-            var newBalanceId = allCategories.FirstOrDefault(c => c.Slug == "new-balance")?.Id ?? defaultCatId;
-
-            // Seed products if not seeded or low count
-            if (context.Products.Count() < 10)
+            if (!context.Products.Any())
             {
-                if (context.Products.Any())
-                {
-                    context.Products.RemoveRange(context.Products);
-                    await context.SaveChangesAsync();
-                }
+                var categories = await context.Categories.ToListAsync();
+                var jordanId = categories.FirstOrDefault(c => c.Slug == "air-jordan")?.Id ?? categories[0].Id;
+                var yeezyId = categories.FirstOrDefault(c => c.Slug == "yeezy")?.Id ?? categories[0].Id;
+                var nikeDunkId = categories.FirstOrDefault(c => c.Slug == "nike-dunk")?.Id ?? categories[0].Id;
+                var newBalanceId = categories.FirstOrDefault(c => c.Slug == "new-balance")?.Id ?? categories[0].Id;
 
                 var products = new List<Product>
                 {
                     new Product
                     {
                         Id = Guid.NewGuid(),
-                        Name = "Air Jordan 1 Retro High OG 'Chicago'",
-                        Slug = "air-jordan-1-retro-high-og-chicago",
+                        Name = "Air Jordan 1 Retro High OG 'Chicago Lost & Found'",
+                        Slug = "air-jordan-1-retro-high-og-chicago-lost-and-found",
                         Brand = "Nike / Jordan",
-                        Description = "Mẫu giày huyền thoại gắn liền với tên tuổi Michael Jordan năm 1985. Phối màu đỏ trắng đen biểu tượng nhất lịch sử sneaker.",
-                        Price = 12500000,
-                        OriginalPrice = 14500000,
+                        Description = "Phiên bản tái hiện huyền thoại Chicago 1985 với chất liệu da rạn vintage, hộp giày phong cách cổ điển đầy hoài niệm.",
+                        Price = 8900000,
+                        OriginalPrice = 10500000,
                         Stock = 15,
                         CategoryId = jordanId,
                         ImageUrl = "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1000&q=80",
                         IsFeatured = true,
                         IsNewRelease = true,
-                        Rating = 4.9,
+                        Rating = 5.0,
                         ReviewCount = 128
                     },
                     new Product
                     {
                         Id = Guid.NewGuid(),
-                        Name = "Travis Scott x Air Jordan 1 Low 'Reverse Mocha'",
-                        Slug = "travis-scott-air-jordan-1-low-reverse-mocha",
+                        Name = "Air Jordan 4 Retro 'Travis Scott Cactus Jack'",
+                        Slug = "air-jordan-4-retro-travis-scott-cactus-jack",
                         Brand = "Nike / Jordan",
-                        Description = "Phiên bản collab đình đám với logo Swoosh ngược đặc trưng của rapper Travis Scott cùng chất liệu da lộn cao cấp.",
-                        Price = 28900000,
-                        OriginalPrice = 32000000,
+                        Description = "Bản collab kinh điển màu xanh University Blue da lộn siêu mịn, điểm nhấn logo Cactus Jack ở gót giày.",
+                        Price = 24500000,
+                        OriginalPrice = 28000000,
                         Stock = 5,
                         CategoryId = jordanId,
                         ImageUrl = "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=1000&q=80",
                         IsFeatured = true,
-                        IsNewRelease = true,
-                        Rating = 5.0,
-                        ReviewCount = 210
-                    },
-                    new Product
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Air Jordan 4 Retro 'Black Cat'",
-                        Slug = "air-jordan-4-retro-black-cat",
-                        Brand = "Nike / Jordan",
-                        Description = "Toàn bộ tông đen huyền bí với chất liệu da lộn nubuck mịn màng, thiết kế cổ điển được giới trẻ săn lùng nhiều nhất.",
-                        Price = 18500000,
-                        OriginalPrice = 21000000,
-                        Stock = 8,
-                        CategoryId = jordanId,
-                        ImageUrl = "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?auto=format&fit=crop&w=1000&q=80",
-                        IsFeatured = true,
                         IsNewRelease = false,
                         Rating = 4.9,
-                        ReviewCount = 175
+                        ReviewCount = 45
                     },
                     new Product
                     {
@@ -298,7 +288,7 @@ public static class DbInitializer
                         OriginalPrice = 4500000,
                         Stock = 28,
                         CategoryId = newBalanceId,
-                        ImageUrl = "https://images.unsplash.com/photo-1617689564172-01196d1c0297?auto=format&fit=crop&w=1000&q=80",
+                        ImageUrl = "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=1000&q=80",
                         IsFeatured = false,
                         IsNewRelease = false,
                         Rating = 4.7,
@@ -377,10 +367,81 @@ public static class DbInitializer
                 await context.Products.AddRangeAsync(products);
                 await context.SaveChangesAsync();
             }
+
+            // Auto-heal existing product image URLs in database if broken
+            var existingProducts = context.Products.ToList();
+            bool modified = false;
+            foreach (var prod in existingProducts)
+            {
+                if (string.IsNullOrWhiteSpace(prod.ImageUrl) || prod.ImageUrl.Contains("photo-1617689564172"))
+                {
+                    prod.ImageUrl = "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=1000&q=80";
+                    modified = true;
+                }
+            }
+            if (modified)
+            {
+                await context.SaveChangesAsync();
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"[DbInitializer Error]: {ex.Message}");
+        }
+    }
+
+    private static async Task EnsureTablesCreatedAsync(AppDbContext context)
+    {
+        try
+        {
+            // Drop legacy/incompatible tables if present
+            await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS `OrderItems`;");
+            await context.Database.ExecuteSqlRawAsync("DROP TABLE IF EXISTS `Orders`;");
+
+            var createOrdersSql = @"
+                CREATE TABLE IF NOT EXISTS `Orders` (
+                  `Id` char(36) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+                  `OrderCode` varchar(50) NOT NULL,
+                  `UserId` char(36) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+                  `CustomerName` varchar(100) NOT NULL,
+                  `CustomerPhone` varchar(20) NOT NULL,
+                  `ShippingAddress` longtext NOT NULL,
+                  `Note` longtext NULL,
+                  `TotalAmount` decimal(18,2) NOT NULL,
+                  `Status` int NOT NULL DEFAULT 0,
+                  `PaymentMethod` int NOT NULL DEFAULT 0,
+                  `IsPaid` tinyint(1) NOT NULL DEFAULT 0,
+                  `CreatedAt` datetime(6) NOT NULL,
+                  `UpdatedAt` datetime(6) NULL,
+                  PRIMARY KEY (`Id`),
+                  UNIQUE KEY `IX_Orders_OrderCode` (`OrderCode`),
+                  KEY `IX_Orders_UserId` (`UserId`),
+                  CONSTRAINT `FK_Orders_Users_UserId` FOREIGN KEY (`UserId`) REFERENCES `Users` (`Id`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            ";
+
+            var createOrderItemsSql = @"
+                CREATE TABLE IF NOT EXISTS `OrderItems` (
+                  `Id` char(36) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+                  `OrderId` char(36) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+                  `ProductId` char(36) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
+                  `SelectedSize` varchar(10) NOT NULL,
+                  `Quantity` int NOT NULL,
+                  `UnitPrice` decimal(18,2) NOT NULL,
+                  PRIMARY KEY (`Id`),
+                  KEY `IX_OrderItems_OrderId` (`OrderId`),
+                  KEY `IX_OrderItems_ProductId` (`ProductId`),
+                  CONSTRAINT `FK_OrderItems_Orders_OrderId` FOREIGN KEY (`OrderId`) REFERENCES `Orders` (`Id`) ON DELETE CASCADE,
+                  CONSTRAINT `FK_OrderItems_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE RESTRICT
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            ";
+
+            await context.Database.ExecuteSqlRawAsync(createOrdersSql);
+            await context.Database.ExecuteSqlRawAsync(createOrderItemsSql);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[EnsureTablesCreated Error]: {ex.Message}");
         }
     }
 }

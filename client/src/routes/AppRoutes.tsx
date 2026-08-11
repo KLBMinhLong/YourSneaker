@@ -8,6 +8,7 @@ import { CheckoutPage } from '../pages/CheckoutPage';
 import { OrderSuccessPage } from '../pages/OrderSuccessPage';
 import { OrderHistoryPage } from '../pages/OrderHistoryPage';
 import { LoginPage } from '../pages/LoginPage';
+import { RegisterPage } from '../pages/RegisterPage';
 import { PaymentReturnPage } from '../pages/PaymentReturnPage';
 import { AdminLayout } from '../components/layout/AdminLayout';
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
@@ -27,7 +28,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/payment-return" element={<PaymentReturnPage />} />
       <Route path="/my-orders" element={<OrderHistoryPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected Admin Portal Routes */}
       <Route element={<ProtectedRoute requireAdmin />}>

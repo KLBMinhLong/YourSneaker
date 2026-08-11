@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var result = await _authService.LoginAsync(request);
-        if (!result.Success) return Unauthorized(result);
+        if (!result.Success) return BadRequest(result);
         return Ok(result);
     }
 
