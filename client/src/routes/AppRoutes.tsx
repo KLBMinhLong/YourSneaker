@@ -8,6 +8,7 @@ import { CheckoutPage } from '../pages/CheckoutPage';
 import { OrderSuccessPage } from '../pages/OrderSuccessPage';
 import { OrderHistoryPage } from '../pages/OrderHistoryPage';
 import { LoginPage } from '../pages/LoginPage';
+import { PaymentReturnPage } from '../pages/PaymentReturnPage';
 import { AdminLayout } from '../components/layout/AdminLayout';
 import { AdminDashboardPage } from '../pages/admin/AdminDashboardPage';
 import { AdminProductsPage } from '../pages/admin/AdminProductsPage';
@@ -22,6 +23,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/order-success/:orderId" element={<OrderSuccessPage />} />
+      <Route path="/payment-return" element={<PaymentReturnPage />} />
       <Route path="/my-orders" element={<OrderHistoryPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<LoginPage />} />

@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ShieldCheck, ArrowRight, CreditCard, Truck, User, Phone, MapPin, FileText } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 import { ordersApi } from '../api/ordersApi';
+import { paymentApi } from '../api/paymentApi';
 
 export const CheckoutPage: React.FC = () => {
   const { items, getTotalPrice, clearCart } = useCartStore();
@@ -60,6 +61,20 @@ export const CheckoutPage: React.FC = () => {
       const res = await ordersApi.createOrder(orderPayload);
       if (res.success && res.data) {
         clearCart();
+
+        if (paymentMethod === 1) {
+          // VNPay online payment flow
+          try {
+            const payRes = await paymentApi.createVnPayUrl(res.data.id);
+            if (payRes.success && payRes.paymentUrl) {
+              window.location.href = payRes.paymentUrl;
+              return;
+            }
+          } catch (payErr) {
+            console.error('VNPay generation error:', payErr);
+          }
+        }
+
         navigate(`/order-success/${res.data.id}`);
       } else {
         setError(res.message || 'Đặt hàng thất bại, vui lòng thử lại.');

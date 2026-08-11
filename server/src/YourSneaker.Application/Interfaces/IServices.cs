@@ -37,6 +37,12 @@ public interface IDashboardService
     Task<ApiResponse<DashboardStatsDto>> GetDashboardStatsAsync();
 }
 
+public interface IVnPayService
+{
+    string CreatePaymentUrl(OrderDto order, string clientIpAddress);
+    Task<ApiResponse<OrderDto>> ProcessPaymentReturnAsync(Dictionary<string, string> vnPayData);
+}
+
 public interface IJwtTokenGenerator
 {
     string GenerateAccessToken(Domain.Entities.User user);
