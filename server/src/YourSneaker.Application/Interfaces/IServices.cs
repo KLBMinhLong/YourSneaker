@@ -1,5 +1,6 @@
 using YourSneaker.Application.Common;
 using YourSneaker.Application.DTOs;
+using YourSneaker.Domain.Enums;
 
 namespace YourSneaker.Application.Interfaces;
 
@@ -18,6 +19,15 @@ public interface IProductService
     Task<ApiResponse<List<ProductDto>>> GetFeaturedProductsAsync();
     Task<ApiResponse<List<CategoryDto>>> GetCategoriesAsync();
     Task<ApiResponse<ProductDto>> CreateProductAsync(CreateProductRequest request);
+}
+
+public interface IOrderService
+{
+    Task<ApiResponse<OrderDto>> CreateOrderAsync(Guid userId, CreateOrderDto request);
+    Task<ApiResponse<List<OrderDto>>> GetMyOrdersAsync(Guid userId);
+    Task<ApiResponse<OrderDto>> GetOrderByIdAsync(Guid userId, Guid orderId);
+    Task<ApiResponse<List<OrderDto>>> GetAllOrdersAsync(); // Admin
+    Task<ApiResponse<OrderDto>> UpdateOrderStatusAsync(Guid orderId, OrderStatus status);
 }
 
 public interface IJwtTokenGenerator

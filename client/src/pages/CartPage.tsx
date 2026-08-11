@@ -86,9 +86,9 @@ export const CartPage: React.FC = () => {
             <span style={{ color: 'var(--accent-primary)' }}>{formatCurrency(getTotalPrice())}</span>
           </div>
 
-          <button className="btn btn-primary" style={{ width: '100%', padding: '14px', marginTop: '10px' }}>
+          <Link to="/checkout" className="btn btn-primary" style={{ width: '100%', padding: '14px', marginTop: '10px' }}>
             TIẾN HÀNH THANH TOÁN <ArrowRight size={18} />
-          </button>
+          </Link>
         </div>
 
       </div>

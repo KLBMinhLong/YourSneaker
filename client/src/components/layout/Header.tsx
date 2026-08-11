@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Search, User, Menu, X, Flame } from 'lucide-react';
+import { ShoppingBag, Search, User, Package, Flame } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
 
 export const Header: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const totalItems = useCartStore((state) => state.getTotalItems());
@@ -36,6 +35,7 @@ export const Header: React.FC = () => {
           <Link to="/products" style={{ fontWeight: 600, fontSize: '0.95rem', transition: 'color 0.2s' }}>SẢN PHẨM</Link>
           <Link to="/products?category=air-jordan" style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-secondary)' }}>JORDAN</Link>
           <Link to="/products?category=yeezy" style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-secondary)' }}>YEEZY</Link>
+          <Link to="/my-orders" style={{ fontWeight: 600, fontSize: '0.95rem', color: 'var(--accent-secondary)' }}>ĐƠN HÀNG</Link>
         </nav>
 
         {/* Search Bar */}
@@ -61,7 +61,11 @@ export const Header: React.FC = () => {
 
         {/* User & Cart Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <Link to="/login" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-subtle)' }}>
+          <Link to="/my-orders" title="Lịch sử đơn hàng" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-subtle)' }}>
+            <Package size={18} color="var(--accent-secondary)" />
+          </Link>
+
+          <Link to="/login" title="Tài khoản" style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-subtle)' }}>
             <User size={20} color="var(--text-primary)" />
           </Link>
 
