@@ -144,6 +144,38 @@ public class ProductService : IProductService
         return ApiResponse<ProductDto>.Ok(MapToDto(created), "Tạo sản phẩm thành công!");
     }
 
+    public async Task<ApiResponse<ProductDto>> UpdateProductAsync(Guid id, CreateProductRequest request)
+    {
+        var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+        if (product == null) return ApiResponse<ProductDto>.Fail("Không tìm thấy sản phẩm.");
+
+        product.Name = request.Name;
+        product.Slug = request.Name.ToLower().Replace(" ", "-").Replace("'", "");
+        product.Description = request.Description;
+        product.Price = request.Price;
+        product.OriginalPrice = request.OriginalPrice;
+        product.Stock = request.Stock;
+        product.ImageUrl = request.ImageUrl;
+        product.Brand = request.Brand;
+        product.CategoryId = request.CategoryId;
+        product.IsFeatured = request.IsFeatured;
+        product.IsNewRelease = request.IsNewRelease;
+
+        await _context.SaveChangesAsync();
+        return ApiResponse<ProductDto>.Ok(MapToDto(product), "Cập nhật sản phẩm thành công!");
+    }
+
+    public async Task<ApiResponse<bool>> DeleteProductAsync(Guid id)
+    {
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+        if (product == null) return ApiResponse<bool>.Fail("Không tìm thấy sản phẩm.");
+
+        _context.Products.Remove(product);
+        await _context.SaveChangesAsync();
+
+        return ApiResponse<bool>.Ok(true, "Xóa sản phẩm thành công!");
+    }
+
     private static ProductDto MapToDto(Product p) => new()
     {
         Id = p.Id,

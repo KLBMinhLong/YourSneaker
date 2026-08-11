@@ -75,9 +75,12 @@ export const Footer: React.FC = () => {
         {/* Copyright */}
         <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
           <p>© 2026 YOURSNEAKER. Demo Portfolio Project built with ASP.NET Core & React.</p>
-          <a href="https://github.com" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
-            <Globe size={16} /> GitHub Repo
-          </a>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <a href="/admin" style={{ color: 'var(--accent-secondary)', fontWeight: 700 }}>Quản Trị Admin Portal</a>
+            <a href="https://github.com" target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
+              <Globe size={16} /> GitHub Repo
+            </a>
+          </div>
         </div>
       </div>
     </footer>

@@ -19,6 +19,8 @@ public interface IProductService
     Task<ApiResponse<List<ProductDto>>> GetFeaturedProductsAsync();
     Task<ApiResponse<List<CategoryDto>>> GetCategoriesAsync();
     Task<ApiResponse<ProductDto>> CreateProductAsync(CreateProductRequest request);
+    Task<ApiResponse<ProductDto>> UpdateProductAsync(Guid id, CreateProductRequest request);
+    Task<ApiResponse<bool>> DeleteProductAsync(Guid id);
 }
 
 public interface IOrderService
@@ -28,6 +30,11 @@ public interface IOrderService
     Task<ApiResponse<OrderDto>> GetOrderByIdAsync(Guid userId, Guid orderId);
     Task<ApiResponse<List<OrderDto>>> GetAllOrdersAsync(); // Admin
     Task<ApiResponse<OrderDto>> UpdateOrderStatusAsync(Guid orderId, OrderStatus status);
+}
+
+public interface IDashboardService
+{
+    Task<ApiResponse<DashboardStatsDto>> GetDashboardStatsAsync();
 }
 
 public interface IJwtTokenGenerator

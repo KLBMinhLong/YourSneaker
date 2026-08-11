@@ -30,6 +30,13 @@ public class ProductsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("categories")]
+    public async Task<IActionResult> GetCategories()
+    {
+        var result = await _productService.GetCategoriesAsync();
+        return Ok(result);
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetProductById(Guid id)
     {
@@ -52,5 +59,23 @@ public class ProductsController : ControllerBase
     {
         var result = await _productService.CreateProductAsync(request);
         return CreatedAtAction(nameof(GetProductById), new { id = result.Data?.Id }, result);
+    }
+
+    [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] CreateProductRequest request)
+    {
+        var result = await _productService.UpdateProductAsync(id, request);
+        if (!result.Success) return NotFound(result);
+        return Ok(result);
+    }
+
+    [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteProduct(Guid id)
+    {
+        var result = await _productService.DeleteProductAsync(id);
+        if (!result.Success) return NotFound(result);
+        return Ok(result);
     }
 }
