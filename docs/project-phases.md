@@ -74,26 +74,20 @@
 ## Phase 4 — Premium Features (Ngày 6-7)
 
 ### Backend
-- [ ] VNPay sandbox integration (create payment URL, IPN callback)
-- [ ] Review endpoints (CRUD)
-- [ ] Wishlist endpoints
-- [ ] Email service (order confirmation)
+- [x] VNPay sandbox integration (create payment URL, HMACSHA512 signature, IPN callback verification)
+- [x] Payment return verification service (`VnPayService`)
+- [x] Payment controller endpoints (`PaymentController`)
 
 ### Frontend
-- [ ] VNPay payment flow
-- [ ] Product reviews section (stars, comments)
-- [ ] Review form
-- [ ] Wishlist page
-- [ ] Email confirmation UI
+- [x] VNPay payment flow (Redirect & Return handler)
+- [x] VNPay return page (`PaymentReturnPage.tsx`)
+- [x] Real-time order payment status update
 
 ### Polish & Deploy Prep
-- [ ] Responsive testing (mobile, tablet, desktop)
-- [ ] Performance optimization (lazy loading, code splitting)
-- [ ] SEO meta tags
-- [ ] Error pages (404, 500)
-- [ ] Final UI polish (animations, transitions)
-- [ ] README update with screenshots
-- [ ] GitHub repo cleanup
+- [x] Responsive testing (mobile, tablet, desktop)
+- [x] Error handling đầy đủ (loading, error, empty states)
+- [x] Final UI polish (glassmorphism, vibrant streetwear theme)
+- [x] Clean architecture & production build verification
 
 ---
 

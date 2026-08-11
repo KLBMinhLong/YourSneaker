@@ -78,4 +78,38 @@ public class ProductsController : ControllerBase
         if (!result.Success) return NotFound(result);
         return Ok(result);
     }
+
+    [HttpPost("upload-image")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UploadImage(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest(new { success = false, message = "Vui lòng chọn file hình ảnh hợp lệ." });
+        }
+
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if (!allowedExtensions.Contains(extension))
+        {
+            return BadRequest(new { success = false, message = "Định dạng file không hỗ trợ. Hãy chọn JPG, PNG, WEBP." });
+        }
+
+        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
+        if (!Directory.Exists(uploadsFolder))
+        {
+            Directory.CreateDirectory(uploadsFolder);
+        }
+
+        var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        var imageUrl = $"{Request.Scheme}://{Request.Host}/uploads/products/{uniqueFileName}";
+        return Ok(new { success = true, imageUrl, message = "Tải ảnh lên thành công!" });
+    }
 }

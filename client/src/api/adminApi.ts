@@ -50,4 +50,13 @@ export const adminApi = {
     const response = await api.delete<ApiResponse<boolean>>(`/products/${id}`);
     return response.data;
   },
+
+  uploadImage: async (file: File): Promise<{ success: boolean; imageUrl: string; message: string }> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await api.post<{ success: boolean; imageUrl: string; message: string }>('/products/upload-image', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
 };
