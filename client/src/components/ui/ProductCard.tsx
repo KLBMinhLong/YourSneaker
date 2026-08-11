@@ -8,6 +8,8 @@ interface ProductCardProps {
   product: Product;
 }
 
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1000&q=80";
+
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const addItem = useCartStore((state) => state.addItem);
 
@@ -18,7 +20,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="product-card">
       <div className="img-wrapper">
-        <img src={product.imageUrl} alt={product.name} />
+        <img
+          src={product.imageUrl || FALLBACK_IMAGE}
+          alt={product.name}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
+          }}
+        />
         <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px' }}>
           {product.isFeatured && <span className="badge badge-featured">HOT</span>}
           {product.isNewRelease && <span className="badge badge-new">NEW</span>}

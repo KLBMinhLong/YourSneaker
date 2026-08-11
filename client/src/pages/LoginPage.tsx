@@ -18,8 +18,24 @@ export const LoginPage: React.FC = () => {
     try {
       const res = await api.post('/auth/login', { email, password });
       if (res.data.success) {
-        localStorage.setItem('token', res.data.data.accessToken);
-        navigate('/');
+        const authData = res.data.data;
+        const accessToken = authData.accessToken;
+        
+        // Save token and full user object to localStorage
+        localStorage.setItem('token', accessToken);
+        localStorage.setItem('user', JSON.stringify(authData));
+
+        const isAdmin = 
+          authData.role === 'Admin' ||
+          authData.role === 1 ||
+          authData.role === '1' ||
+          authData.email?.toLowerCase() === 'admin@yoursneaker.com';
+
+        if (isAdmin) {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       } else {
         setError(res.data.message || 'Đăng nhập thất bại.');
       }
