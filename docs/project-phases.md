@@ -8,49 +8,49 @@
 
 ### Backend
 - [x] Project setup: Clean Architecture solution structure
-- [ ] Docker + MySQL setup
-- [ ] EF Core DbContext + entity configurations
-- [ ] Initial migration (Users, Products, Categories)
-- [ ] Seed data (admin user, categories, sample products)
-- [ ] Auth: Register, Login, JWT + Refresh Token
-- [ ] Product CRUD endpoints
-- [ ] Category CRUD endpoints
-- [ ] Search, filter, sort, pagination cho products
-- [ ] Global exception handling middleware
-- [ ] Swagger configuration
+- [x] Docker + MySQL setup
+- [x] EF Core DbContext + entity configurations
+- [x] Initial migration (Users, Products, Categories)
+- [x] Seed data (admin user, categories, sample products)
+- [x] Auth: Register, Login, JWT + Refresh Token
+- [x] Product CRUD endpoints
+- [x] Category CRUD endpoints
+- [x] Search, filter, sort, pagination cho products
+- [x] Global exception handling middleware
+- [x] Swagger configuration
 
 ### Frontend
-- [ ] Vite + React + TypeScript setup
-- [ ] CSS design system (variables, base styles, components)
-- [ ] Layout components (Header, Footer, Sidebar)
-- [ ] Auth pages (Login, Register)
-- [ ] Homepage (Hero, Featured Products, Categories)
-- [ ] Product listing page (grid, filters, search, pagination)
-- [ ] Product detail page
-- [ ] Axios setup + API layer
-- [ ] Auth state management (Zustand)
-- [ ] Protected routes
+- [x] Vite + React + TypeScript setup
+- [x] CSS design system (variables, base styles, components)
+- [x] Layout components (Header, Footer, Sidebar)
+- [x] Auth pages (Login, Register)
+- [x] Homepage (Hero, Featured Products, Categories)
+- [x] Product listing page (grid, filters, search, pagination)
+- [x] Product detail page
+- [x] Axios setup + API layer
+- [x] Auth state management (Zustand)
+- [x] Protected routes
 
 ---
 
 ## Phase 2 — Shopping (Ngày 3-4)
 
 ### Backend
-- [ ] Cart endpoints (CRUD cart items)
-- [ ] Order endpoints (create order, get my orders)
-- [ ] Order status management
-- [ ] Stock validation khi đặt hàng
-- [ ] Order history endpoint
+- [x] Cart endpoints (CRUD cart items - Managed via Client Store & Orders payload)
+- [x] Order endpoints (create order, get my orders)
+- [x] Order status management
+- [x] Stock validation khi đặt hàng
+- [x] Order history endpoint
 
 ### Frontend
-- [ ] Cart page (items list, quantity controls, summary)
-- [ ] Cart icon with item count in header
-- [ ] Checkout page (shipping info form, order summary)
-- [ ] Order confirmation page
-- [ ] Order history page
-- [ ] Order detail page
-- [ ] Toast notifications
-- [ ] Loading states + skeleton screens
+- [x] Cart page (items list, quantity controls, summary)
+- [x] Cart icon with item count in header
+- [x] Checkout page (shipping info form, order summary)
+- [x] Order confirmation page
+- [x] Order history page
+- [x] Order detail page
+- [x] Toast notifications & feedback
+- [x] Loading states + skeleton screens
 
 ---
 
