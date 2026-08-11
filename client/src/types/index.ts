@@ -32,6 +32,19 @@ export interface Product {
   categoryName: string;
 }
 
+export interface CreateProductRequest {
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  stock: number;
+  imageUrl: string;
+  brand: string;
+  categoryId: string;
+  isFeatured: boolean;
+  isNewRelease: boolean;
+}
+
 export interface Category {
   id: string;
   name: string;

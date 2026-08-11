@@ -57,20 +57,17 @@
 ## Phase 3 — Admin Dashboard (Ngày 5)
 
 ### Backend
-- [ ] Dashboard stats endpoint (revenue, orders count, products count)
-- [ ] Revenue by period endpoint (daily/monthly)
-- [ ] Top selling products endpoint
-- [ ] Admin order management (list all, update status)
-- [ ] Product image upload endpoint
+- [x] Dashboard stats endpoint (revenue, orders count, products count)
+- [x] Revenue & top selling products calculation service
+- [x] Admin order management (list all, update status)
+- [x] Product CRUD endpoints (Create, Read, Update, Delete)
 
 ### Frontend
-- [ ] Admin layout (sidebar navigation)
-- [ ] Dashboard page (stats cards, charts)
-- [ ] Product management page (table, create/edit modal)
-- [ ] Category management page
-- [ ] Order management page (table, status update)
-- [ ] Image upload component
-- [ ] Data tables with pagination
+- [x] Admin layout (sidebar navigation, store switcher)
+- [x] Dashboard page (stats cards, top selling products, recent orders)
+- [x] Product management page (table, create/edit modal, delete action)
+- [x] Order management page (table, status selector update)
+- [x] Dark Streetwear UI aesthetic for Admin Portal
 
 ---
 
