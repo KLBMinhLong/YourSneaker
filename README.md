@@ -7,8 +7,32 @@
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![JWT](https://img.shields.io/badge/Auth-JWT%20%2B%20Refresh%20Token-black)](#)
 [![VNPay](https://img.shields.io/badge/Payment-VNPay%20Sandbox-005BAA)](#)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Watch%20Demo%20Video-red?style=flat&logo=youtube)](https://youtu.be/_y9Tr9E2Dgs)
 
 > **YourSneaker** là nền tảng thương mại điện tử chuyên biệt về Sneaker & Streetwear cao cấp. Dự án được thiết kế theo kiến trúc **Clean Architecture (.NET 9 Web API)** kết hợp với giao diện **React + Vite (Dark Streetwear Glassmorphic UI)** mang lại trải nghiệm độc bản, mượt mà và hiện đại.
+
+---
+
+## 🎬 Video Demo & Giao Diện Ứng Dụng
+
+> 🎥 **Xem Video Demo thực tế trên YouTube:** [https://youtu.be/_y9Tr9E2Dgs](https://youtu.be/_y9Tr9E2Dgs)
+
+[![YourSneaker Demo Video](https://img.youtube.com/vi/_y9Tr9E2Dgs/maxresdefault.jpg)](https://youtu.be/_y9Tr9E2Dgs)
+
+### 1. Trang Chủ & Hero Section Nổi Bật (Home Page)
+![Home Page](./captureImage/homePage.png)
+
+### 2. Danh Sách Sản Phẩm & Bộ Lọc Streetwear (Products Page)
+![Products Page](./captureImage/productPage.png)
+
+### 3. Chi Tiết Sản Phẩm & Điểm Nhấn Banner (Hot Screen)
+![Hot Screen](./captureImage/hotScreen.png)
+
+### 4. Giỏ Hàng & Thanh Toán Đơn Hàng (Cart & Checkout)
+![Cart Page](./captureImage/cartPage.png)
+
+### 5. Trang Quản Trị Hệ Thống (Admin Portal & Dashboard Analytics)
+![Admin Page](./captureImage/adminPage.png)
 
 ---
 
@@ -16,6 +40,7 @@
 
 ### 🛒 1. Khách Hàng (Customer Storefront)
 - **Giao diện Streetwear độc bản**: Thiết kế Dark Mode kết hợp hiệu ứng Glassmorphism & Neon Cyan/Crimson accents.
+- **Hero Showcase 3D**: Trình diễn sản phẩm Air Jordan biểu tượng với hiệu ứng ánh sáng ambient và tương tác di chuột linh hoạt.
 - **Bộ lọc & Tìm kiếm sản phẩm**: Lọc đa chiều theo Danh mục, Thương hiệu (Nike, Adidas, Jordan, Yeezy), Khoảng giá và Sắp xếp linh hoạt.
 - **Giỏ hàng thông minh (Zustand)**: Quản lý giỏ hàng client-side mượt mà, lưu trữ vị trí size và số lượng tức thì.
 - **Thanh toán linh hoạt**:
@@ -40,6 +65,7 @@ Dự án áp dụng mô hình **Clean Architecture 4 Tầng** đảm bảo nguy�
 
 ```text
 YourSneaker/
+├── captureImage/                         # Thư mục hình ảnh Demo giao diện
 ├── server/                               # Backend ASP.NET Core 9
 │   ├── src/
 │   │   ├── YourSneaker.Domain/           # Core Entities, Enums, Value Objects
