@@ -278,14 +278,43 @@ export const AdminProductsPage: React.FC = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '6px' }}>LINK HÌNH ẢNH (IMAGE URL) *</label>
-                <input
-                  type="url"
-                  required
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-subtle)', color: '#FFF' }}
-                />
+                <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, marginBottom: '6px' }}>HÌNH ẢNH SẢN PHẨM *</label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '8px' }}>
+                  <input
+                    type="url"
+                    required
+                    placeholder="Nhập đường dẫn URL hoặc chọn file bên phải..."
+                    value={formData.imageUrl}
+                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    style={{ flexGrow: 1, padding: '10px 14px', borderRadius: '4px', background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-subtle)', color: '#FFF' }}
+                  />
+                  <label className="btn btn-outline" style={{ cursor: 'pointer', padding: '10px 14px', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                    📁 TẢI FILE TỪ MÁY
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        try {
+                          const res = await adminApi.uploadImage(file);
+                          if (res.success && res.imageUrl) {
+                            setFormData((prev: CreateProductRequest) => ({ ...prev, imageUrl: res.imageUrl }));
+                          }
+                        } catch (err) {
+                          alert('Tải ảnh lên thất bại!');
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+                {formData.imageUrl && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(255,255,255,0.04)', padding: '8px 12px', borderRadius: '4px' }}>
+                    <img src={formData.imageUrl} alt="Preview" style={{ width: '48px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                    <span style={{ fontSize: '0.75rem', color: 'var(--accent-secondary)' }}>Xem trước hình ảnh thành công</span>
+                  </div>
+                )}
               </div>
 
               <div>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShoppingBag, Star, ShieldCheck, Truck, ArrowLeft } from 'lucide-react';
+import { ShoppingBag, Star, ArrowLeft } from 'lucide-react';
 import { productsApi } from '../api/productsApi';
 import { Product } from '../types';
 import { useCartStore } from '../store/useCartStore';
+
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1000&q=80";
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -47,7 +49,14 @@ export const ProductDetailPage: React.FC = () => {
         
         {/* Product Image */}
         <div className="glass-panel" style={{ padding: '24px', overflow: 'hidden' }}>
-          <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '480px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+          <img
+            src={product.imageUrl || FALLBACK_IMAGE}
+            alt={product.name}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = FALLBACK_IMAGE;
+            }}
+            style={{ width: '100%', height: '480px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
+          />
         </div>
 
         {/* Product Details */}

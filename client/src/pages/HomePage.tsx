@@ -33,28 +33,69 @@ export const HomePage: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
       
       {/* Hero Section */}
-      <section className="glass-panel" style={{ position: 'relative', overflow: 'hidden', padding: '80px 40px', background: 'linear-gradient(135deg, rgba(255,46,99,0.12) 0%, rgba(0,242,254,0.05) 100%)', borderRadius: 'var(--radius-lg)' }}>
-        <div style={{ maxWidth: '640px', zIndex: 2, position: 'relative' }}>
-          <div className="badge badge-featured" style={{ marginBottom: '20px' }}>
-            <Sparkles size={14} /> BST STREETWEAR HIGHLIGHT 2026
+      <section
+        className="glass-panel"
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          padding: '60px 48px',
+          background: 'linear-gradient(135deg, rgba(255,46,99,0.15) 0%, rgba(0,242,254,0.06) 100%)',
+          borderRadius: 'var(--radius-lg)'
+        }}
+      >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', alignItems: 'center', gap: '48px', position: 'relative', zIndex: 2 }}>
+          <div style={{ maxWidth: '600px' }}>
+            <div className="badge badge-featured" style={{ marginBottom: '20px' }}>
+              <Sparkles size={14} /> BST STREETWEAR HIGHLIGHT 2026
+            </div>
+            
+            <h1 style={{ fontSize: '3.4rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px' }}>
+              ĐỊNH HÌNH <br />
+              <span className="text-gradient-accent">PHONG CÁCH RIÊNG</span>
+            </h1>
+
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '36px', lineHeight: 1.6 }}>
+              Khám phá bộ sưu tập Sneaker độc bản, chính hãng 100%. Từ Air Jordan huyền thoại đến Yeezy mang hơi thở tương lai.
+            </p>
+
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              <Link to="/products" className="btn btn-primary" style={{ padding: '14px 32px' }}>
+                KHÁM PHÁ NGAY <ArrowRight size={18} />
+              </Link>
+              <Link to="/products?category=air-jordan" className="btn btn-outline" style={{ padding: '14px 32px' }}>
+                JORDAN BST
+              </Link>
+            </div>
           </div>
-          
-          <h1 style={{ fontSize: '3.5rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '24px' }}>
-            ĐỊNH HÌNH <br />
-            <span className="text-gradient-accent">PHONG CÁCH RIÊNG</span>
-          </h1>
 
-          <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '36px', lineHeight: 1.6 }}>
-            Khám phá bộ sưu tập Sneaker độc bản, chính hãng 100%. Từ Air Jordan huyền thoại đến Yeezy mang hơi thở tương lai.
-          </p>
-
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <Link to="/products" className="btn btn-primary" style={{ padding: '14px 32px' }}>
-              KHÁM PHÁ NGAY <ArrowRight size={18} />
-            </Link>
-            <Link to="/products?category=air-jordan" className="btn btn-outline" style={{ padding: '14px 32px' }}>
-              JORDAN BST
-            </Link>
+          {/* Right Column: Hero Sneaker Showcase */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', minHeight: '340px' }}>
+            {/* Ambient Radial Glow Effect */}
+            <div style={{
+              position: 'absolute',
+              width: '360px',
+              height: '360px',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(255,46,99,0.35) 0%, rgba(0,242,254,0.18) 55%, transparent 75%)',
+              filter: 'blur(40px)',
+              pointerEvents: 'none'
+            }} />
+            
+            <img
+              src="/hero-sneaker.png"
+              alt="Air Jordan 1 High Retro Chicago Iconic Sneaker"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '400px',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 25px 35px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 45px rgba(255, 46, 99, 0.45))',
+                transform: 'rotate(-12deg) scale(1.05)',
+                transition: 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'rotate(-4deg) scale(1.15)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'rotate(-12deg) scale(1.05)')}
+            />
           </div>
         </div>
 
